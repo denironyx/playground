@@ -1,0 +1,31 @@
+[project]
+name = "playground"
+version = "0.1.0"
+description = "Scratch environment for OSS contributions to splink and uk_address_matcher"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "splink",
+    "uk_address_matcher",
+    "duckdb>=1.3.2,<2.0",   # explicit so the resolved intersection is recorded in our own lock
+    "sqlglot==26.6.0",      # match ukam's hard pin; also satisfies splink (>=17.6.0)
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29",      # Jupyter kernel for notebooks
+    "jupyterlab>=4.0",      # notebook UI
+    "python-dotenv>=1.0",   # load .env in scripts/notebooks
+    "pandas>=2.0",          # interactive data inspection
+    "pyarrow>=15.0",        # parquet I/O for both projects' datasets
+]
+
+# Redirect the two dependencies above to local editable clones.
+# Editing code in ../splink or ../uk_address_matcher is picked up live (no reinstall).
+[tool.uv.sources]
+splink = { path = "../splink", editable = true }
+uk_address_matcher = { path = "../uk_address_matcher", editable = true }
+
+[tool.uv]
+# The playground is a flat collection of scripts/notebooks, not a distributable
+# package, so don't try to build/install it as one.
+package = false
