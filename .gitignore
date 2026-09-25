@@ -25,3 +25,7 @@ __pycache__/
 # os / editor
 .vscode/
 .DS_Store
+
+
+uk_address_matcher/docs/
+data/
